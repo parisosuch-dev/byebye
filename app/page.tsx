@@ -4,8 +4,15 @@ import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/app");
+  };
+
   return (
     <AuroraBackground>
       <motion.div
@@ -25,7 +32,10 @@ export default function Home() {
           With the click of a button (and some other buttons)
         </div>
         <div className="pt-4 sm:pt-0">
-          <Button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 space-x-2">
+          <Button
+            onClick={handleClick}
+            className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 space-x-2"
+          >
             <Image
               src="/spotify.png"
               alt="spotify logo"
