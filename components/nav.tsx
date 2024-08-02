@@ -50,9 +50,7 @@ export default function Nav() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      ) : (
-        <p>sign in</p>
-      )}
+      ) : null}
     </div>
   );
 }
