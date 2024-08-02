@@ -4,9 +4,21 @@ import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleSpotifyButton = () => {
+    if (!session) {
+      signIn("spotify");
+    } else {
+      router.push("/app");
+    }
+  };
+
   return (
     <AuroraBackground>
       <motion.div
@@ -27,7 +39,7 @@ export default function Home() {
         </div>
         <div className="pt-4 sm:pt-0">
           <Button
-            onClick={() => signIn("spotify")}
+            onClick={handleSpotifyButton}
             className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 space-x-2"
           >
             <Image
