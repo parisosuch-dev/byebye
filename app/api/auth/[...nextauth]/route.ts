@@ -20,6 +20,10 @@ const options: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Redirect users to /app after sign-in
+      return baseUrl + "/app";
+    },
     async jwt({ token, account }) {
       if (account) {
         token.access_token = account.access_token;

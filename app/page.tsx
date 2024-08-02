@@ -31,6 +31,7 @@ export default function Home() {
         }}
         className="relative flex flex-col gap-1 sm:gap-4 items-center justify-center px-4"
       >
+        {session?.user?.name}
         <div className="text-3xl md:text-7xl font-bold dark:text-white text-center">
           Remove Unwanted Spotify Artists
         </div>
