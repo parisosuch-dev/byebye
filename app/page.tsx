@@ -7,6 +7,8 @@ import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Nav from "@/components/nav";
+import { getProfile } from "@/lib/spotify";
+import { useEffect } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -19,6 +21,15 @@ export default function Home() {
       router.push("/app");
     }
   };
+
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    getProfile(session.accessToken!).then((res) => {
+      console.log(res);
+    });
+  }, [session]);
 
   return (
     <AuroraBackground className="min-h-screen flex flex-col">
