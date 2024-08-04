@@ -1,14 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Nav from "@/components/nav";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Nav from "@/components/nav";
-import { getPlaylists, getProfile } from "@/lib/spotify";
-import { useEffect } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -21,15 +19,6 @@ export default function Home() {
       router.push("/app");
     }
   };
-
-  useEffect(() => {
-    if (!session) {
-      return;
-    }
-    getPlaylists(session.accessToken!).then((res) => {
-      console.log(res);
-    });
-  }, [session]);
 
   return (
     <AuroraBackground className="min-h-screen flex flex-col">
