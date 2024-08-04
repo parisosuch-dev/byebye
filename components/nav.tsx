@@ -18,7 +18,7 @@ export default function Nav() {
     <Avatar>
       <AvatarImage src={session.user!.image!} />
       <AvatarFallback className="bg-spotify-black text-white">
-        {session.user!.name?.at(0)}
+        {session.user?.name?.at(0)}
       </AvatarFallback>
     </Avatar>
   );
@@ -36,13 +36,13 @@ export default function Nav() {
         <DropdownMenu>
           <DropdownMenuTrigger className="flex flex-row items-center space-x-4">
             <p className="font-medium text-spotify-black invisible sm:visible sm:text-lg underline">
-              {session.user!.name}
+              {session.user?.name}
             </p>
             <Pfp session={session} />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[150px] sm:w-[200px]">
             <DropdownMenuLabel className="visible sm:hidden">
-              <p className="">{session.user!.name}</p>
+              <p className="">{session.user?.name}</p>
             </DropdownMenuLabel>
             <DropdownMenuItem className="space-x-2" onClick={handleSignOut}>
               <LucideLogOut className="w-4 h-4 sm:w-5 sm:h-5" />
