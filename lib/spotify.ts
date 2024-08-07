@@ -68,7 +68,7 @@ export async function searchArtist(
       params: {
         query: encodeURI(artist),
         type: "artist",
-        limit: 10,
+        limit: 50,
       },
     });
     return response.data.artists.items;

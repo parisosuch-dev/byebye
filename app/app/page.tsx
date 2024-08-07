@@ -34,11 +34,11 @@ export default function App() {
   return (
     <div className="w-full flex flex-col items-center">
       <Nav />
-      <div className="w-1/2 space-y-4">
+      <div className="w-full px-4 sm:px-0 sm:w-1/2 space-y-4">
         <h1 className="text-xl font-bold">Select An Artist</h1>
         <Input placeholder="search for an artist..." onChange={handleSearch} />
         {artists?.length > 0 ? (
-          <div className="space-y-1">
+          <div className="space-y-1 max-h-[400px] overflow-y-scroll">
             {artists.map((artist) => (
               <div
                 key={artist.id}
