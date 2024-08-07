@@ -29,6 +29,9 @@ export async function getTracks(accessToken: string) {
       headers: {
         Authorization: "Bearer " + accessToken,
       },
+      params: {
+        limit: 50,
+      },
     });
     return response.data;
   } catch (err: any | AxiosError) {
