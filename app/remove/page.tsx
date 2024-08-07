@@ -52,20 +52,20 @@ export default function Remove() {
     }
 
     return (
-        <AuroraBackground className="min-h-screen flex flex-col items-center justify-center">
-            <Card className="w-1/3 min-h-[300px] relative flex flex-col justify-between p-8">
+        <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
+            <Card className="min-h-[300px] relative flex flex-col justify-between p-4 sm:p-8">
                 <div>
-                    <h1 className="text-2xl font-bold">Are you sure?</h1>
-                    <p className="font-light">You are about to remove {artist.name} from all of your liked songs.</p>
+                    <h1 className="text-lg sm:text-2xl font-bold">Are you sure?</h1>
+                    <p className="text-sm sm:text-base font-light">You are about to remove {artist.name} from all of your liked songs.</p>
                 </div>
-                <div className="pt-8">
-                    <p className="text-sm">Type <span className="font-bold">{artist.name}</span> to confirm</p>
+                <div className="space-y-1 sm:space-y-2">
+                    <p className="text-xs sm:text-sm">Type <span className="font-bold">{artist.name}</span> to confirm</p>
                     <Input
                         placeholder="artist name..."
                         onChange={handleInput}
                     />
                 </div>
-                <div className="pt-4 w-full flex justify-end space-x-2">
+                <div className="w-full flex justify-end space-x-2">
                     <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
                     <Button disabled={confirmation !== artist.name} className="bg-spotify-green">Confirm</Button>
                 </div>

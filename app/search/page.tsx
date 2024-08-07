@@ -25,7 +25,6 @@ export default function App() {
     }
     searchArtist(session!.accessToken!, e.target.value).then((res) => {
       setArtists(res);
-      console.log(res);
     });
   };
 
