@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import SessionWrapper from "@/components/session-wrapper";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
+      <Suspense fallback={null}>
+        <html lang="en">
+          <body className={inter.className}>{children}</body>
+        </html>
+      </Suspense>
+
     </SessionWrapper>
   );
 }

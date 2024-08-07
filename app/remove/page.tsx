@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import PageLoader from "@/components/page-loader";
 import { AuroraBackground } from "@/components/ui/aurora-background";
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Artist, getArtist } from "@/lib/spotify";
-import { error } from "console";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
