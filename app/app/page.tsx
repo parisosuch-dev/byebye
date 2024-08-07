@@ -35,13 +35,14 @@ export default function App() {
     <div className="w-full flex flex-col items-center">
       <Nav />
       <div className="w-1/2 space-y-4">
+        <h1 className="text-xl font-bold">Select An Artist</h1>
         <Input placeholder="search for an artist..." onChange={handleSearch} />
         {artists?.length > 0 ? (
           <div className="space-y-1">
             {artists.map((artist) => (
               <div
                 key={artist.id}
-                className="flex flex-row items-center px-2 space-x-2 bg-gray-100 hover:bg-spotify-green hover:text-white transform ease-in-out duration-150 rounded-lg h-[64px]"
+                className="flex flex-row items-center px-2 space-x-2 bg-gray-100 hover:bg-spotify-green hover:text-white transform ease-in duration-150 rounded-lg h-[64px]"
               >
                 <Avatar>
                   <AvatarImage
