@@ -59,7 +59,7 @@ const options: NextAuthOptions = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-      return baseUrl + "/app";
+      return baseUrl + "/search";
     },
     async jwt({ token, account, user }) {
       if (account && user) {
