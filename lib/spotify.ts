@@ -95,3 +95,9 @@ export async function getArtist(
     throw err;
   }
 }
+
+export async function removeArtist(accessToken: string, artistID: string) {
+  // get user saved tracks (from URI)
+  // iterate over tracks and get any songs that contain artistID
+  // delete tracks
+}
