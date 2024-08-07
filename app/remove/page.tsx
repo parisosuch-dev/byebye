@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Artist, getArtist } from "@/lib/spotify";
+import { error } from "console";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -29,6 +30,10 @@ export default function Remove() {
 
         getArtist(session.accessToken!, artistID!).then((res) => {
             setArtist(res);
+        }).catch((error) => {
+            if (error) {
+                router.push('/search')
+            }
         });
     }, [session]);
 
@@ -60,8 +65,9 @@ export default function Remove() {
                         onChange={handleInput}
                     />
                 </div>
-                <div className="pt-4 w-full flex justify-end">
-                    <Button disabled={confirmation !== artist.name} className="bg-spotify-green">confirm</Button>
+                <div className="pt-4 w-full flex justify-end space-x-2">
+                    <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
+                    <Button disabled={confirmation !== artist.name} className="bg-spotify-green">Confirm</Button>
                 </div>
             </Card>
         </AuroraBackground>
