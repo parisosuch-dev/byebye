@@ -16,7 +16,7 @@ export default function Home() {
     if (!session) {
       signIn("spotify");
     } else {
-      router.push("/app");
+      router.push("/search");
     }
   };
 
