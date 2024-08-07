@@ -90,7 +90,7 @@ export async function getArtist(
         },
       }
     );
-    return response.data.artists.items;
+    return response.data;
   } catch (err: any | AxiosError) {
     throw err;
   }
