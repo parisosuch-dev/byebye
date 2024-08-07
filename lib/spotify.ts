@@ -76,3 +76,22 @@ export async function searchArtist(
     throw err;
   }
 }
+
+export async function getArtist(
+  accessToken: string,
+  artistID: string
+): Promise<Artist> {
+  try {
+    const response = await axios.get(
+      SPOTIFY_API_ROOT_URL + "/artists/" + artistID,
+      {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+    return response.data.artists.items;
+  } catch (err: any | AxiosError) {
+    throw err;
+  }
+}
