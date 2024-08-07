@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Artist, searchArtist } from "@/lib/spotify";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ScaleLoader } from "react-spinners";
 
@@ -40,9 +41,10 @@ export default function App() {
         {artists?.length > 0 ? (
           <div className="space-y-1 sm:max-h-[400px] overflow-y-scroll">
             {artists.map((artist) => (
-              <div
+              <Link
                 key={artist.id}
                 className="flex flex-row items-center px-2 space-x-2 bg-gray-100 hover:bg-spotify-green hover:text-white transform ease-in duration-150 rounded-lg h-[64px]"
+                href={`/remove?artist=${artist.id}`}
               >
                 <Avatar>
                   <AvatarImage
@@ -58,7 +60,7 @@ export default function App() {
                   </AvatarFallback>
                 </Avatar>
                 <p>{artist.name}</p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : null}
