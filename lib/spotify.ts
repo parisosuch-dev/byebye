@@ -150,9 +150,12 @@ export async function getArtist(
   }
 }
 
-export async function removeArtist(accessToken: string, artistID: string) {
+export async function removeArtist(
+  accessToken: string,
+  artistID: string
+): Promise<Track[]> {
   const remove = (ids: string[]) => {
-    let response = axios.delete(SPOTIFY_API_ROOT_URL + "/me/tracks", {
+    axios.delete(SPOTIFY_API_ROOT_URL + "/me/tracks", {
       headers: {
         Authorization: "Bearer " + accessToken,
       },
@@ -216,8 +219,5 @@ export async function removeArtist(accessToken: string, artistID: string) {
     });
   }
 
-  console.log(tracks);
-
-  // iterate over tracks and get any songs that contain artistID
-  // delete tracks
+  return tracks;
 }
