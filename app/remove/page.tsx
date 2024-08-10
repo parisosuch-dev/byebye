@@ -5,7 +5,7 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Artist, getArtist } from "@/lib/spotify";
+import { Artist, getArtist, removeArtist } from "@/lib/spotify";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -47,7 +47,9 @@ export default function Remove() {
   };
 
   const handleButton = () => {
-    //
+    if (session && artistID) {
+      removeArtist(session.accessToken!, artistID);
+    }
   };
 
   return (
@@ -74,6 +76,7 @@ export default function Remove() {
               confirmation.toLowerCase() !== artist.name.toLocaleLowerCase()
             }
             className="bg-spotify-green"
+            onClick={handleButton}
           >
             Confirm
           </Button>

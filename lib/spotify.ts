@@ -15,6 +15,60 @@ export interface Artist {
   uri: string;
 }
 
+export interface Track {
+  album: {
+    album_type: string;
+    total_tracks: number;
+    available_markets: string[];
+    external_urls: { spotify: string };
+    href: string;
+    id: string;
+    images: { url: string; height: number; width: number }[];
+    name: string;
+    release_date: string;
+    release_date_precision: string;
+    restrictions: { reason: string };
+    type: string;
+    uri: string;
+    artists: {
+      external_urls: { spotify: string };
+      href: string;
+      id: string;
+      name: string;
+      type: string;
+      uri: string;
+    }[];
+  };
+  artists: {
+    external_urls: { spotify: string };
+    href: string;
+    id: string;
+    name: string;
+    type: string;
+    uri: string;
+  }[];
+  available_markets: string[];
+  disc_number: number;
+  duration_ms: number;
+  explicit: boolean;
+  external_ids: { isrc: string; ean: string; upc: string };
+  external_urls: { spotify: string };
+  href: string;
+  id: string;
+  is_playable: boolean;
+  linked_from: {};
+  restrictions: {
+    reason: string;
+  };
+  name: string;
+  popularity: number;
+  preview_url: string;
+  track_number: number;
+  type: string;
+  uri: string;
+  is_local: boolean;
+}
+
 export async function getProfile(accessToken: string) {
   const response = await axios.get(SPOTIFY_API_ROOT_URL + "/me", {
     headers: {
@@ -97,7 +151,52 @@ export async function getArtist(
 }
 
 export async function removeArtist(accessToken: string, artistID: string) {
+  interface ResponseData {
+    href: string;
+    limit: number;
+    next: string;
+    offset: number;
+    previous: string;
+    total: number;
+    items: { added_at: string; track: Track }[];
+  }
   // get user saved tracks (from URI)
+  let response = await axios.get(SPOTIFY_API_ROOT_URL + "/me/tracks", {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
+    params: {
+      limit: 50,
+    },
+  });
+  let data: ResponseData = response.data;
+  const tracks: Track[] = [];
+  data.items.forEach((item) => {
+    for (let artist of item.track.artists) {
+      if (artist.id === artistID) {
+        tracks.push(item.track);
+      }
+    }
+  });
+
+  while (data.next) {
+    response = await axios.get(data.next, {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    data = response.data;
+    data.items.forEach((item) => {
+      for (let artist of item.track.artists) {
+        if (artist.id === artistID) {
+          tracks.push(item.track);
+        }
+      }
+    });
+  }
+
+  console.log(tracks);
+
   // iterate over tracks and get any songs that contain artistID
   // delete tracks
 }
