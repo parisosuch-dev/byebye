@@ -151,6 +151,17 @@ export async function getArtist(
 }
 
 export async function removeArtist(accessToken: string, artistID: string) {
+  const remove = (ids: string[]) => {
+    let response = axios.delete(SPOTIFY_API_ROOT_URL + "/me/tracks", {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+      data: {
+        ids: ids,
+      },
+    });
+  };
+
   interface ResponseData {
     href: string;
     limit: number;
@@ -170,12 +181,17 @@ export async function removeArtist(accessToken: string, artistID: string) {
     },
   });
   let data: ResponseData = response.data;
-  const tracks: Track[] = [];
+  let tracks: Track[] = [];
   data.items.forEach((item) => {
+    let ids = [];
     for (let artist of item.track.artists) {
       if (artist.id === artistID) {
+        ids.push(item.track.id);
         tracks.push(item.track);
       }
+    }
+    if (ids.length > 0) {
+      remove(ids);
     }
   });
 
@@ -188,8 +204,13 @@ export async function removeArtist(accessToken: string, artistID: string) {
     data = response.data;
     data.items.forEach((item) => {
       for (let artist of item.track.artists) {
+        let ids = [];
         if (artist.id === artistID) {
+          ids.push(item.track.id);
           tracks.push(item.track);
+        }
+        if (ids.length > 0) {
+          remove(ids);
         }
       }
     });
