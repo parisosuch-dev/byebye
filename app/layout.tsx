@@ -19,12 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <Suspense fallback={null}>
-        <html lang="en">
-          <body className={inter.className}>{children}</body>
-        </html>
-      </Suspense>
-
+      <html lang="en">
+        <body className={inter.className}>{children}</body>
+      </html>
     </SessionWrapper>
   );
 }
