@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Artist, getArtist, removeArtist, Track } from "@/lib/spotify";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, Suspense, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 
 export default function Remove() {
@@ -60,47 +60,45 @@ export default function Remove() {
   };
 
   return (
-    <Suspense fallback={null}>
-      <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
-        {removing ? (
-          <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-            <h1 className="text-lg sm:text-2xl font-bold">
-              Removing {artist.name} from your Liked Songs...
-            </h1>
-            <BarLoader color="#1DB954" height={4} width={350} />
-          </Card>
-        ) : (
-          <Card className="min-h-[300px] relative flex flex-col justify-between p-4 sm:p-8">
-            <div>
-              <h1 className="text-lg sm:text-2xl font-bold">Are you sure?</h1>
-              <p className="text-sm sm:text-base font-light">
-                You are about to remove {artist.name} from all of your liked
-                songs.
-              </p>
-            </div>
-            <div className="space-y-1 sm:space-y-2">
-              <p className="text-xs sm:text-sm">
-                Type <span className="font-bold">{artist.name}</span> to confirm
-              </p>
-              <Input placeholder="artist name..." onChange={handleInput} />
-            </div>
-            <div className="w-full flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => router.back()}>
-                Cancel
-              </Button>
-              <Button
-                disabled={
-                  confirmation.toLowerCase() !== artist.name.toLocaleLowerCase()
-                }
-                className="bg-spotify-green"
-                onClick={handleButton}
-              >
-                Confirm
-              </Button>
-            </div>
-          </Card>
-        )}
-      </AuroraBackground>
-    </Suspense>
+    <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
+      {removing ? (
+        <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+          <h1 className="text-lg sm:text-2xl font-bold">
+            Removing {artist.name} from your Liked Songs...
+          </h1>
+          <BarLoader color="#1DB954" height={4} width={350} />
+        </Card>
+      ) : (
+        <Card className="min-h-[300px] relative flex flex-col justify-between p-4 sm:p-8">
+          <div>
+            <h1 className="text-lg sm:text-2xl font-bold">Are you sure?</h1>
+            <p className="text-sm sm:text-base font-light">
+              You are about to remove {artist.name} from all of your liked
+              songs.
+            </p>
+          </div>
+          <div className="space-y-1 sm:space-y-2">
+            <p className="text-xs sm:text-sm">
+              Type <span className="font-bold">{artist.name}</span> to confirm
+            </p>
+            <Input placeholder="artist name..." onChange={handleInput} />
+          </div>
+          <div className="w-full flex justify-end space-x-2">
+            <Button variant="outline" onClick={() => router.back()}>
+              Cancel
+            </Button>
+            <Button
+              disabled={
+                confirmation.toLowerCase() !== artist.name.toLocaleLowerCase()
+              }
+              className="bg-spotify-green"
+              onClick={handleButton}
+            >
+              Confirm
+            </Button>
+          </div>
+        </Card>
+      )}
+    </AuroraBackground>
   );
 }
