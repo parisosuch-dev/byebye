@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Artist, getArtist, removeArtist, Track } from "@/lib/spotify";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 
 export default function Remove() {
@@ -66,7 +66,9 @@ export default function Remove() {
           <h1 className="text-lg sm:text-2xl font-bold">
             Removing {artist.name} from your Liked Songs...
           </h1>
-          <BarLoader color="#1DB954" height={4} width={350} />
+          <Suspense>
+            <BarLoader color="#1DB954" height={4} width={350} />
+          </Suspense>
         </Card>
       ) : (
         <Card className="min-h-[300px] relative flex flex-col justify-between p-4 sm:p-8">
