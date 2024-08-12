@@ -1,3 +1,5 @@
+"use client";
+
 import { BarLoader } from "react-spinners";
 
 export default function PageLoader(props: { text?: string }) {
