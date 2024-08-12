@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Artist, getArtist, removeArtist, Track } from "@/lib/spotify";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 
-export default function Remove() {
+function Remove() {
   const router = useRouter();
   const params = useSearchParams();
   const artistID = params.get("artist");
@@ -100,5 +100,13 @@ export default function Remove() {
         </Card>
       )}
     </AuroraBackground>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <Remove />
+    </Suspense>
   );
 }
