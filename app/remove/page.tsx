@@ -62,14 +62,14 @@ export default function Remove() {
   return (
     <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
       {removing ? (
-        <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-          <h1 className="text-lg sm:text-2xl font-bold">
-            Removing {artist.name} from your Liked Songs...
-          </h1>
-          <Suspense>
+        <Suspense>
+          <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+            <h1 className="text-lg sm:text-2xl font-bold">
+              Removing {artist.name} from your Liked Songs...
+            </h1>
             <BarLoader color="#1DB954" height={4} width={350} />
-          </Suspense>
-        </Card>
+          </Card>
+        </Suspense>
       ) : (
         <Card className="min-h-[300px] relative flex flex-col justify-between p-4 sm:p-8">
           <div>
