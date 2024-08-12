@@ -97,7 +97,7 @@ function Remove() {
     <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
       {removing ? (
         <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-          <h1 className="text-lg sm:text-2xl font-bold">
+          <h1 className="text-lg sm:text-2xl font-bold text-center">
             Removing {artist.name} from your Liked Songs...
           </h1>
           <BarLoader color="#1DB954" height={4} width={350} />
