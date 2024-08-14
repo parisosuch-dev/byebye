@@ -1,17 +1,24 @@
-import { getSession } from "next-auth/react";
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
-  const session = await getSession();
+const secret = process.env.NEXTAUTH_SECRET;
 
-  if (!session) {
-    NextResponse.redirect("/");
+export async function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname === "/") {
+    return NextResponse.next();
   }
+  const token = await getToken({ req, secret });
+
+  // If there's no token, redirect to the home page ('/')
+  if (!token) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // Allow the request to proceed if the session exists
+  return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
+// Apply the middleware to all routes except the root
 export const config = {
-  matcher: "/about/:path*",
+  matcher: "/((?!_next/static|_next/image|favicon.ico|api|/).*)",
 };
