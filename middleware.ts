@@ -20,5 +20,5 @@ export async function middleware(req: NextRequest) {
 
 // Apply the middleware to all routes except the root
 export const config = {
-  matcher: "/((?!_next/static|_next/image|favicon.ico|api|/).*)",
+  matcher: "/((?!_next/static|_next/image|favicon.ico|api|/|spotify.png).*)",
 };
