@@ -24,7 +24,7 @@ export default function Nav() {
   );
 
   const handleSignOut = () => {
-    signOut();
+    signOut({ callbackUrl: "/", redirect: true });
   };
 
   return (

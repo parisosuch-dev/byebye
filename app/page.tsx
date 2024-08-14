@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleSpotifyButton = () => {
     if (!session) {
-      signIn("spotify");
+      signIn("spotify", { callbackUrl: "/search", redirect: true });
     } else {
       router.push("/search");
     }
