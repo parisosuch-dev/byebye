@@ -80,17 +80,31 @@ function Confirmation() {
   if (finished) {
     return (
       <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
-        <Card className="min-h-[200px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-          <h1 className="text-lg sm:text-2xl font-bold text-center">
-            {tracks.length} track(s) removed from your library.
-          </h1>
-          <Button
-            className="bg-spotify-green w-full"
-            onClick={() => router.push("/")}
-          >
-            Home
-          </Button>
-        </Card>
+        {tracks.length > 0 ? (
+          <Card className="min-h-[200px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+            <h1 className="text-lg sm:text-2xl font-bold text-center">
+              {tracks.length} track(s) removed from your library.
+            </h1>
+            <Button
+              className="bg-spotify-green w-full"
+              onClick={() => router.push("/")}
+            >
+              Home
+            </Button>
+          </Card>
+        ) : (
+          <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+            <h1 className="text-lg sm:text-2xl font-bold">
+              No tracks for {artist.name} found in your Liked Songs.
+            </h1>
+            <Button
+              className="bg-spotify-green"
+              onClick={() => router.push("/search")}
+            >
+              Back to Search
+            </Button>
+          </Card>
+        )}
       </AuroraBackground>
     );
   }
@@ -99,15 +113,10 @@ function Confirmation() {
     return (
       <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
         <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-          <h1 className="text-lg sm:text-2xl font-bold">
-            No tracks for {artist.name} found in your Liked Songs.
+          <h1 className="text-lg sm:text-2xl font-bold text-center">
+            Deleting {artist.name} tracks from your Liked Songs...
           </h1>
-          <Button
-            className="bg-spotify-green"
-            onClick={() => router.push("/search")}
-          >
-            Back to Search
-          </Button>
+          <BarLoader color="#1DB954" height={4} width={350} />
         </Card>
       </AuroraBackground>
     );
