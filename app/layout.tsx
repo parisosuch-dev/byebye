@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import SessionWrapper from "@/components/session-wrapper";
-import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,6 +33,7 @@ export default function RootLayout({
           </div>
         </body>
       </html>
+      <Analytics />
     </SessionWrapper>
   );
 }
