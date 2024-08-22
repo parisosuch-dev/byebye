@@ -32,7 +32,7 @@ export default function App() {
     return <PageLoader text="Loading App..." />;
   }
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full min-h-screen flex flex-col items-center">
       <Nav />
       <div className="w-full p-4 sm:p-0 sm:w-1/2 space-y-4">
         <h1 className="text-xl font-bold">Select An Artist</h1>
