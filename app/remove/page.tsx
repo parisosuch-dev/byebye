@@ -122,7 +122,10 @@ function Confirmation() {
           </h1>
           <div className="w-full space-y-2">
             {tracks.map((track) => (
-              <div className="flex flex-row items-center p-2 space-x-4 w-full bg-gray-100 rounded-lg h-[60px]">
+              <div
+                key={track.id}
+                className="flex flex-row items-center p-2 space-x-4 w-full bg-gray-100 rounded-lg h-[60px]"
+              >
                 <Avatar>
                   <AvatarImage
                     className="rounded-lg"
