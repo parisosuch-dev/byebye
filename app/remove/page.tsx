@@ -116,11 +116,11 @@ function Confirmation() {
   if (tracks.length > 0) {
     return (
       <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
-        <Card className="min-h-[300px] sm:w-1/2 relative flex flex-col justify-center items-center space-y-6 p-4 sm:p-8">
+        <Card className="max-h-[400px] sm:w-1/2 relative flex flex-col justify-center items-center space-y-6 p-4 sm:p-8">
           <h1 className="text-lg sm:text-2xl font-bold text-center">
             These tracks will be deleted from your Liked Songs...
           </h1>
-          <div className="w-full space-y-2">
+          <div className="w-full space-y-2 overflow-y-scroll">
             {tracks.map((track) => (
               <div
                 key={track.id}
