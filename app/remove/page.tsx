@@ -2,25 +2,34 @@
 
 import PageLoader from "@/components/page-loader";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScaleLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Artist, getArtist, removeArtist, Track } from "@/lib/spotify";
+import {
+  Artist,
+  getArtist,
+  getSavedTracksFromArtist,
+  removeTracks,
+  Track,
+} from "@/lib/spotify";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 
-function Remove() {
+function Confirmation() {
   const router = useRouter();
   const params = useSearchParams();
   const artistID = params.get("artist");
 
   const [artist, setArtist] = useState<Artist>();
   const [confirmation, setConfirmation] = useState("");
-  const [removing, setRemoving] = useState(false);
+  const [gettingTracks, setGettingTracks] = useState(false);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [finished, setFinished] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const { data: session } = useSession();
 
@@ -52,53 +61,106 @@ function Remove() {
 
   const handleButton = () => {
     if (session && artistID) {
-      setRemoving(true);
-      removeArtist(session.accessToken!, artistID).then((res) => {
+      setGettingTracks(true);
+      getSavedTracksFromArtist(session.accessToken!, artistID).then((res) => {
         setTracks(res);
-        setRemoving(false);
-        setFinished(true);
+        setGettingTracks(false);
       });
     }
+  };
+
+  const handleDelete = () => {
+    setDeleting(true);
+    removeTracks(session?.accessToken!, tracks).then((res) => {
+      setDeleting(false);
+      setFinished(true);
+    });
   };
 
   if (finished) {
     return (
       <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
-        {tracks.length > 0 ? (
-          <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-            <h1 className="text-lg sm:text-2xl font-bold">
-              {tracks.length} track(s) removed from your library.
-            </h1>
-            <Button
-              className="bg-spotify-green"
-              onClick={() => router.push("/")}
-            >
-              Home
+        <Card className="min-h-[200px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+          <h1 className="text-lg sm:text-2xl font-bold text-center">
+            {tracks.length} track(s) removed from your library.
+          </h1>
+          <Button
+            className="bg-spotify-green w-full"
+            onClick={() => router.push("/")}
+          >
+            Home
+          </Button>
+        </Card>
+      </AuroraBackground>
+    );
+  }
+
+  if (deleting) {
+    return (
+      <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
+        <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
+          <h1 className="text-lg sm:text-2xl font-bold">
+            No tracks for {artist.name} found in your Liked Songs.
+          </h1>
+          <Button
+            className="bg-spotify-green"
+            onClick={() => router.push("/search")}
+          >
+            Back to Search
+          </Button>
+        </Card>
+      </AuroraBackground>
+    );
+  }
+
+  if (tracks.length > 0) {
+    return (
+      <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
+        <Card className="min-h-[300px] sm:w-1/2 relative flex flex-col justify-center items-center space-y-6 p-4 sm:p-8">
+          <h1 className="text-lg sm:text-2xl font-bold text-center">
+            These tracks will be deleted from your Liked Songs...
+          </h1>
+          <div className="w-full space-y-2">
+            {tracks.map((track) => (
+              <div className="flex flex-row items-center p-2 space-x-4 w-full bg-gray-100 rounded-lg h-[60px]">
+                <Avatar>
+                  <AvatarImage
+                    className="rounded-lg"
+                    height={48}
+                    width={48}
+                    src={track.album.images[0] ? track.album.images[0].url : ""}
+                  />
+                  <AvatarFallback>
+                    <div className="w-[48px] h-[48px] flex items-center justify-center">
+                      <ScaleLoader width={4} height={8} />
+                    </div>
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  {track.artists[0].name} - {track.name}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="w-full flex justify-end space-x-2">
+            <Button variant="outline" onClick={() => router.back()}>
+              Cancel
             </Button>
-          </Card>
-        ) : (
-          <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
-            <h1 className="text-lg sm:text-2xl font-bold">
-              No tracks for {artist.name} found in your Liked Songs.
-            </h1>
-            <Button
-              className="bg-spotify-green"
-              onClick={() => router.push("/search")}
-            >
-              Back to Search
+            <Button className="bg-spotify-green" onClick={handleDelete}>
+              Confirm
             </Button>
-          </Card>
-        )}
+          </div>
+        </Card>
       </AuroraBackground>
     );
   }
 
   return (
     <AuroraBackground className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-0">
-      {removing ? (
+      {gettingTracks ? (
         <Card className="min-h-[300px] relative flex flex-col justify-center items-center space-y-8 p-4 sm:p-8">
           <h1 className="text-lg sm:text-2xl font-bold text-center">
-            Removing {artist.name} from your Liked Songs...
+            Getting {artist.name} tracks from your Liked Songs...
           </h1>
           <BarLoader color="#1DB954" height={4} width={350} />
         </Card>
@@ -140,7 +202,7 @@ function Remove() {
 export default function Page() {
   return (
     <Suspense>
-      <Remove />
+      <Confirmation />
     </Suspense>
   );
 }

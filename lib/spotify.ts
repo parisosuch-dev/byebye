@@ -150,21 +150,10 @@ export async function getArtist(
   }
 }
 
-export async function removeArtist(
+export async function getSavedTracksFromArtist(
   accessToken: string,
   artistID: string
 ): Promise<Track[]> {
-  const remove = (ids: string[]) => {
-    axios.delete(SPOTIFY_API_ROOT_URL + "/me/tracks", {
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-      data: {
-        ids: ids,
-      },
-    });
-  };
-
   interface ResponseData {
     href: string;
     limit: number;
@@ -193,9 +182,6 @@ export async function removeArtist(
         tracks.push(item.track);
       }
     }
-    if (ids.length > 0) {
-      remove(ids);
-    }
   });
 
   while (data.next) {
@@ -212,12 +198,24 @@ export async function removeArtist(
           ids.push(item.track.id);
           tracks.push(item.track);
         }
-        if (ids.length > 0) {
-          remove(ids);
-        }
       }
     });
   }
 
   return tracks;
+}
+
+export async function removeTracks(accessToken: string, tracks: Track[]) {
+  const ids = [];
+  for (let track of tracks) {
+    ids.push(track.id);
+  }
+  await axios.delete(SPOTIFY_API_ROOT_URL + "/me/tracks", {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
+    data: {
+      ids: ids,
+    },
+  });
 }
